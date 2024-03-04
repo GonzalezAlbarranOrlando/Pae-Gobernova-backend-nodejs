@@ -16,6 +16,6 @@ app.use(express.urlencoded({extended: true}));
 app.set('port', config.app.port);
 
 //rutes
-app.use('/api/users', users);
+app.use('/api', users);
 
 module.exports = app;

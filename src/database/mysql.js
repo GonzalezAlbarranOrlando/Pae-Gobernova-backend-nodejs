@@ -81,7 +81,6 @@ function update(table, data){
 }
 
 function update_boolean_status(table, data){
-    console.log('hola');
     return new Promise((resolve, reject) => {
         connection.query(`UPDATE ${table} SET boolean_status = ? WHERE id = ?`, [data.boolean_status, data.id], (error, result) => {
             return error ? reject(error) : resolve(result);

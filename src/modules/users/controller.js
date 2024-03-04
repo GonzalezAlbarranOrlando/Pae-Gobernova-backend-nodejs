@@ -1,36 +1,35 @@
-const database = require('../../database/mysql');
-const TABLE = 'users';
+const db_mysql = require('../../database/mysql');
 
-function select_all(){
-    return database.select_all(TABLE);
+function select_all(table){
+    return db_mysql.select_all(table);
 }
 
-function select_boolean_status_active(){
-    return database.select_boolean_status_active(TABLE);
+function select_boolean_status_active(table){
+    return db_mysql.select_boolean_status_active(table);
 }
 
-function select_boolean_status_inactive(){
-    return database.select_boolean_status_inactive(TABLE);
+function select_boolean_status_inactive(table){
+    return db_mysql.select_boolean_status_inactive(table);
 }
 
-function select_id(id){
-    return database.select_id(TABLE, id);
+function select_id(table, id){
+    return db_mysql.select_id(table, id);
 }
 
-function add(body){
-    return database.add(TABLE, body);
+function add(table, body){
+    return db_mysql.add(table, body);
 }
 
-function update(body){
-    return database.update(TABLE, body);
+function update(table, body){
+    return db_mysql.update(table, body);
 }
 
-function update_boolean_status(body){
-    return database.update_boolean_status(TABLE, body);
+function update_boolean_status(table, body){
+    return db_mysql.update_boolean_status(table, body);
 }
 
-function delete_physically(body){
-    return database.delete_physically(TABLE, body);
+function delete_physically(table, body){
+    return db_mysql.delete_physically(table, body);
 }
 
 module.exports = {
