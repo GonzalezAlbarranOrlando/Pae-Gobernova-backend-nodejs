@@ -1,7 +1,7 @@
 const express = require('express');
 
 const answer = require('../network/answers');
-const controller = require('./controller');
+const controller = require('./index');
 
 const router = express.Router();
 
