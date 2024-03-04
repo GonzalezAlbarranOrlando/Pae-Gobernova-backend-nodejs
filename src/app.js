@@ -3,7 +3,7 @@ const config = require('./config');
 //npm i morgan
 const morgan = require('morgan');
 //import rutes
-const users = require('./modules/users/rutes');
+const rutes = require('./modules/rutes');
 
 const app = express();
 
@@ -16,6 +16,6 @@ app.use(express.urlencoded({extended: true}));
 app.set('port', config.app.port);
 
 //rutes
-app.use('/api', users);
+app.use('/api', rutes);
 
 module.exports = app;

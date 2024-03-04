@@ -1,11 +1,11 @@
 const express = require('express');
 
-const answer = require('../../network/answers');
+const answer = require('../network/answers');
 const controller = require('./controller');
 
 const router = express.Router();
 
-//users
+//users test ok
 router.get('/users/select_all', select_all);
 router.get('/users/select_boolean_status_active', select_boolean_status_active);
 router.get('/users/select_boolean_status_inactive', select_boolean_status_inactive);
@@ -23,7 +23,7 @@ router.post('/evaluations/add', add);
 router.post('/evaluations/update', update);
 router.post('/evaluations/update_boolean_status', update_boolean_status);
 router.put('/evaluations/delete_physically', delete_physically);
-//files
+//files test ok
 router.get('/files/select_all', select_all);
 router.get('/files/select_boolean_status_active', select_boolean_status_active);
 router.get('/files/select_boolean_status_inactive', select_boolean_status_inactive);

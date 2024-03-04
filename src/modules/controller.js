@@ -1,4 +1,4 @@
-const db_mysql = require('../../database/mysql');
+const db_mysql = require('../database/mysql');
 
 function select_all(table){
     return db_mysql.select_all(table);
