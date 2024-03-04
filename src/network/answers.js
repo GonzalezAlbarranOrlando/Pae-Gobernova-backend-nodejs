@@ -11,7 +11,7 @@ exports.success = function (req, res, message, status) {
 
 exports.error = function (req, res, message, status) {
     const statusTemp = status || 500;
-    const messageTemp = message || 'Internal Error';
+    const messageTemp = JSON.stringify(message) || 'Internal Error';
     res.status(statusTemp).send({
         error: true,
         status: statusTemp,
