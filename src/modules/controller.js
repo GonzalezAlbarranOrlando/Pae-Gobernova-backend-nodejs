@@ -63,12 +63,6 @@ module.exports = function(db_injected){
             });
     }
 
-    async function login2(table, body){     
-        const temp = await db_mysql.login(table, body.user_name);
-        console.log('[temp]', temp[0].encrypted_password, '[temp]');
-        return temp; 
-    }
-
     return {
         select_all,
         select_boolean_status_active,
