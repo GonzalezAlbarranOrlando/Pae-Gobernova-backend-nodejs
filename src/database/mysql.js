@@ -96,6 +96,13 @@ function delete_physically(table, data){
     });
 }
 
+function login(table, user_name){
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM ${table} WHERE user_name = ?`,user_name, (error, result) => {
+            return error ? reject(error) : resolve(result);
+        })
+    });
+}
 
 module.exports = {
     select_all,
@@ -105,5 +112,6 @@ module.exports = {
     add,
     update,
     update_boolean_status,
-    delete_physically
+    delete_physically,
+    login
 }

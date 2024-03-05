@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 
 module.exports = function(db_injected){
 
@@ -38,6 +39,36 @@ module.exports = function(db_injected){
         return db_mysql.delete_physically(table, body);
     }
 
+    async function register(table, body){
+        body.encrypted_password = await bcrypt.hash(body.encrypted_password, 5);
+        return db_mysql.add(table, body);
+    }
+
+    async function login(table, body){        
+        const answer_temp = await db_mysql.login(table, body.user_name);
+        /*
+        if(await bcrypt.compare(body.encrypted_password, answer_temp[0].encrypted_password)){
+            return answer_temp;
+        }else{
+            return "wrong password";
+        }
+        */
+        return bcrypt.compare(body.encrypted_password, answer_temp[0].encrypted_password)
+            .then(result => {
+                if(result){
+                    return answer_temp;
+                }else{
+                    return "wrong password";
+                }
+            });
+    }
+
+    async function login2(table, body){     
+        const temp = await db_mysql.login(table, body.user_name);
+        console.log('[temp]', temp[0].encrypted_password, '[temp]');
+        return temp; 
+    }
+
     return {
         select_all,
         select_boolean_status_active,
@@ -46,6 +77,8 @@ module.exports = function(db_injected){
         add,
         update,
         update_boolean_status,
-        delete_physically
+        delete_physically,
+        register,
+        login
     }       
 }

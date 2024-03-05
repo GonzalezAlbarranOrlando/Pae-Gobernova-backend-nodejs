@@ -59,6 +59,9 @@ router.post('/user_questions/add', add);
 router.post('/user_questions/update', update);
 router.post('/user_questions/update_boolean_status', update_boolean_status);
 router.put('/user_questions/delete_physically', delete_physically);
+//login
+router.post('/users/register', register);
+router.get('/login', login);
 
 async function select_all(req, res){
     try{
@@ -127,6 +130,24 @@ async function update_boolean_status (req, res){
     try{
         await controller.update_boolean_status(req.url.split("/")[1], req.body);
         answer.success(req, res, '[update_boolean_status query]: success!!!', 200);
+    }catch(err){
+        answer.error(req, res, err, 500);
+    }
+};
+
+async function register (req, res){
+    try{
+        await controller.register('users', req.body);
+        answer.success(req, res, '[add query]: success!!!', 201);
+    }catch(err){
+        answer.error(req, res, err, 500);
+    }
+};
+
+async function login (req, res){
+    try{
+        const items = await controller.login('users', req.body);
+        answer.success(req, res, items, 200);
     }catch(err){
         answer.error(req, res, err, 500);
     }
