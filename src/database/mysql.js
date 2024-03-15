@@ -104,6 +104,71 @@ function login(table, user_name){
     });
 }
 
+function evaluations_per_user(id){
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT      e.id AS evaluation_id,     e.name AS evaluation_name,     COUNT(q.id) AS total_questions,     SUM(CASE WHEN uq.status_text = 'approved' THEN 1 ELSE 0 END) AS approved_questions FROM      users u JOIN      user_questions uq ON u.id = uq.user_id JOIN      questions q ON uq.question_id = q.id JOIN      sections s ON q.section_id = s.id JOIN      evaluations e ON s.evaluation_id = e.id WHERE      u.boolean_status = 1     AND uq.boolean_status = 1     AND q.boolean_status = 1     AND s.boolean_status = 1     AND e.boolean_status = 1     AND u.id = ? GROUP BY      e.id, e.name;`, id,(error, result) => {
+            return error ? reject(error) : resolve(result);
+        })
+    });
+}
+
+function q_f_per_user_per_evaluation(userid, evaluationid){
+    return new Promise((resolve, reject) => {
+        connection.query(`
+        WITH QuestionCounts AS (
+            SELECT 
+                e.id AS evaluation_id,
+                e.name AS evaluation_name,
+                s.id AS section_id,
+                s.name AS section_name,
+                q.id AS question_id,
+                q.question_body, 
+                uq.id AS user_question_id,
+                uq.status_text AS question_status_text,
+                ROW_NUMBER() OVER (PARTITION BY e.id ORDER BY q.id) AS question_number
+            FROM 
+                user_questions uq
+            INNER JOIN 
+                questions q ON uq.question_id = q.id
+            INNER JOIN 
+                sections s ON q.section_id = s.id
+            INNER JOIN
+                evaluations e ON s.evaluation_id = e.id
+            WHERE 
+                uq.boolean_status = 1
+                AND q.boolean_status = 1
+                AND s.boolean_status = 1
+                AND e.boolean_status = 1
+                AND uq.user_id = ?
+                AND e.id = ?
+            ORDER BY
+                s.id, q.id, question_number
+            )
+            SELECT 
+                evaluation_id,
+                evaluation_name,
+                section_id,
+                section_name,
+                question_id,
+                question_number,
+                question_body,
+                question_status_text,
+                f.id AS file_id,
+                f.file_path,
+                qc.user_question_id
+            FROM 
+                QuestionCounts qc
+            LEFT JOIN 
+                files f ON qc.user_question_id = f.user_question_id
+            WHERE 
+                f.boolean_status = 1;
+        `, [userid, evaluationid],(error, result) => {
+            return error ? reject(error) : resolve(result);
+        })
+    });
+}
+
+
 module.exports = {
     select_all,
     select_boolean_status_active,
@@ -113,5 +178,7 @@ module.exports = {
     update,
     update_boolean_status,
     delete_physically,
-    login
+    login,
+    evaluations_per_user,
+    q_f_per_user_per_evaluation
 }

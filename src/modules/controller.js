@@ -63,6 +63,14 @@ module.exports = function(db_injected){
             });
     }
 
+    async function evaluations_per_user(id){        
+        return db_mysql.evaluations_per_user(id);
+    }
+
+    async function q_f_per_user_per_evaluation(userid, evaluationid){        
+        return db_mysql.q_f_per_user_per_evaluation(userid, evaluationid);
+    }
+
     return {
         select_all,
         select_boolean_status_active,
@@ -73,6 +81,8 @@ module.exports = function(db_injected){
         update_boolean_status,
         delete_physically,
         register,
-        login
+        login,
+        evaluations_per_user,
+        q_f_per_user_per_evaluation
     }       
 }

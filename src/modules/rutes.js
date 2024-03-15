@@ -62,6 +62,10 @@ router.put('/user_questions/delete_physically', delete_physically);
 //login
 router.post('/users/register', register);
 router.get('/login', login);
+// evaluations_per_user
+router.get('/evaluations_per_user/user_id/:id', evaluations_per_user);
+// q_f_per_user_per_evaluation
+router.get('/q_f_per_user_per_evaluation/:userid/:evaluationid', q_f_per_user_per_evaluation);
 
 async function select_all(req, res){
     try{
@@ -151,6 +155,26 @@ async function login (req, res){
     }catch(err){
         answer.error(req, res, err, 500);
     }
+};
+
+// evaluations_per_user
+async function evaluations_per_user (req, res){
+    try{
+        const items = await controller.evaluations_per_user(req.params.id);
+        answer.success(req, res, items, 200);
+    }catch(err){
+        answer.error(req, res, err, 500);
+    }
+};
+//q_f_per_user_per_evaluation
+async function q_f_per_user_per_evaluation (req, res){
+    try{
+        const items = await controller.q_f_per_user_per_evaluation(req.params.userid, req.params.evaluationid);
+        answer.success(req, res, items, 200);
+    }catch(err){
+        answer.error(req, res, err, 500);
+    }
+    return;
 };
 
 module.exports = router;
