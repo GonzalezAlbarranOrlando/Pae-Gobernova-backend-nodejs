@@ -44,15 +44,9 @@ module.exports = function(db_injected){
         return db_mysql.add(table, body);
     }
 
-    async function login(table, body){        
-        const answer_temp = await db_mysql.login(table, body.user_name);
-        /*
-        if(await bcrypt.compare(body.encrypted_password, answer_temp[0].encrypted_password)){
-            return answer_temp;
-        }else{
-            return "wrong password";
-        }
-        */
+    async function login(table, user_name){        
+        return db_mysql.login(table, user_name);
+        /*     
         return bcrypt.compare(body.encrypted_password, answer_temp[0].encrypted_password)
             .then(result => {
                 if(result){
@@ -61,6 +55,7 @@ module.exports = function(db_injected){
                     return "wrong password";
                 }
             });
+        */
     }
 
     async function evaluations_per_user(id){        

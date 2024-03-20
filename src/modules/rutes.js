@@ -61,7 +61,7 @@ router.post('/user_questions/update_boolean_status', update_boolean_status);
 router.put('/user_questions/delete_physically', delete_physically);
 //login
 router.post('/users/register', register);
-router.get('/login', login);
+router.get('/login/username/:user_name', login);
 // evaluations_per_user
 router.get('/evaluations_per_user/user_id/:id', evaluations_per_user);
 // q_f_per_user_per_evaluation
@@ -150,7 +150,7 @@ async function register (req, res){
 
 async function login (req, res){
     try{
-        const items = await controller.login('users', req.body);
+        const items = await controller.login('users', req.params.user_name);
         answer.success(req, res, items, 200);
     }catch(err){
         answer.error(req, res, err, 500);
