@@ -14,6 +14,8 @@ router.post('/users/add', add);
 router.post('/users/update', update);
 router.post('/users/update_boolean_status', update_boolean_status);
 router.put('/users/delete_physically', delete_physically);
+//
+router.get('/users/select_users', select_users);
 //evaluations
 router.get('/evaluations/select_all', select_all);
 router.get('/evaluations/select_boolean_status_active', select_boolean_status_active);
@@ -175,6 +177,16 @@ async function q_f_per_user_per_evaluation (req, res){
         answer.error(req, res, err, 500);
     }
     return;
+};
+
+//select_users
+async function select_users(req, res){
+    try{
+        const items = await controller.select_users(req.url.split("/")[1]);
+        answer.success(req, res, items, 200);
+    }catch(err){
+        answer.error(req, res, err, 500);
+    }
 };
 
 module.exports = router;

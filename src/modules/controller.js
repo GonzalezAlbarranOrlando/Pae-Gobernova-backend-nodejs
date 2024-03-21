@@ -66,6 +66,10 @@ module.exports = function(db_injected){
         return db_mysql.q_f_per_user_per_evaluation(userid, evaluationid);
     }
 
+    async function select_users(table){
+        return await db_mysql.select_users(table);
+    }
+
     return {
         select_all,
         select_boolean_status_active,
@@ -78,6 +82,7 @@ module.exports = function(db_injected){
         register,
         login,
         evaluations_per_user,
-        q_f_per_user_per_evaluation
+        q_f_per_user_per_evaluation,
+        select_users
     }       
 }

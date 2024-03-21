@@ -194,6 +194,29 @@ function q_f_per_user_per_evaluation(userid, evaluationid){
     });
 }
 
+function select_users(table){
+    return new Promise((resolve, reject) => {
+        connection.query(`
+        SELECT
+            id,
+            instance_name,
+            email,
+            phone_number,
+            image_path,
+            color,
+            user_name,
+            boolean_admin_permissions,
+            boolean_status
+        FROM
+            ${table}
+        WHERE
+            boolean_status = 1
+            AND boolean_admin_permissions = 0;
+        `, (error, result) => {
+            return error ? reject(error) : resolve(result);
+        })
+    });
+}
 
 module.exports = {
     select_all,
@@ -206,5 +229,6 @@ module.exports = {
     delete_physically,
     login,
     evaluations_per_user,
-    q_f_per_user_per_evaluation
+    q_f_per_user_per_evaluation,
+    select_users
 }
