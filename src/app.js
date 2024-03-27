@@ -13,7 +13,7 @@ const app = express();
 //app.use(cors());
 // Habilitar CORS para origen específico
 app.use(cors({
-    origin: ['http://localhost:8080', 'http://192.168.1.36:8080'],
+    origin: ['http://localhost:8080', 'http://192.168.1.90:8080'],
   }));
 
 //middleware

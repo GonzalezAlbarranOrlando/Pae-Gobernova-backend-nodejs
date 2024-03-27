@@ -1,0 +1,35 @@
+### select * from users
+GET http://localhost:4000/api/users/select_all
+
+### select * from files
+GET http://localhost:4000/api/files/select_all
+
+### select * from evaluations
+GET http://localhost:4000/api/evaluations/select_all
+
+### get by id
+GET http://localhost:4000/api/users/id/1
+
+### add user
+POST http://localhost:4000/api/users/add
+Content-Type: application/json
+
+{
+    "instance_name": "Municipio de metepec",
+    "email": "metepec2cc@gmail.com",
+    "phone_number": "7284561203",
+    "image_path": "/home/orlandoooo/Documents/metepec12399.jpg",
+    "color": "#fc0303",
+    "user_name": "metepec20241239900",
+    "encrypted_password": "$2b$05$97gLMHtgaM6J9xBTA2S/TuByhj3X95Anpj7QRvezjJdDlu2.IeTaO",
+    "boolean_admin_permissions": 0,
+    "boolean_status": 1
+}
+
+### delete from users
+PUT http://localhost:4000/api/users/delete_physically
+Content-Type: application/json
+
+{
+	"id": 26
+}
