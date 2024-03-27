@@ -44,18 +44,22 @@ module.exports = function(db_injected){
         return db_mysql.add(table, body);
     }
 
-    async function login(table, user_name){        
-        return db_mysql.login(table, user_name);
-        /*     
-        return bcrypt.compare(body.encrypted_password, answer_temp[0].encrypted_password)
-            .then(result => {
-                if(result){
-                    return answer_temp;
-                }else{
-                    return "wrong password";
-                }
-            });
-        */
+    async function login(table, user_name, password){        
+        const answer_temp = await db_mysql.login(table, user_name);
+        if(answer_temp.length === 0){
+            return 'user do not exist';
+        }
+        console.log('password:'+ password)
+        console.log('encrypted_password:'+ answer_temp[0].encrypted_password)
+        console.log('boolean:'+ await bcrypt.compare(password, answer_temp[0].encrypted_password))
+        if(!await bcrypt.compare(password, answer_temp[0].encrypted_password)){
+            return 'wrong password';
+        }else{
+            delete answer_temp[0].encrypted_password;
+            delete answer_temp[0].boolean_status;
+            console.log(answer_temp);
+            return answer_temp;
+        }
     }
 
     async function evaluations_per_user(id){        

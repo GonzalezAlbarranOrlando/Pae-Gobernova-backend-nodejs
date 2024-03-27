@@ -98,7 +98,7 @@ function delete_physically(table, data){
 
 function login(table, user_name){
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT id, boolean_admin_permissions, encrypted_password FROM ${table} WHERE user_name = ? AND boolean_status = 1`,user_name, (error, result) => {
+        connection.query(`SELECT * FROM ${table} WHERE user_name = ? AND boolean_status = 1`,user_name, (error, result) => {
             return error ? reject(error) : resolve(result);
         })
     });
