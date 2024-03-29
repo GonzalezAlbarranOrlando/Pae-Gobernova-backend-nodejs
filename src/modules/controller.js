@@ -49,12 +49,10 @@ module.exports = function(db_injected){
         if(answer_temp.length === 0){
             return 'user do not exist';
         }
-        console.log('password:'+ password)
-        console.log('encrypted_password:'+ answer_temp[0].encrypted_password)
-        console.log('boolean:'+ await bcrypt.compare(password, answer_temp[0].encrypted_password))
         if(!await bcrypt.compare(password, answer_temp[0].encrypted_password)){
             return 'wrong password';
         }else{
+            delete answer_temp[0].user_name;
             delete answer_temp[0].encrypted_password;
             delete answer_temp[0].boolean_status;
             console.log(answer_temp);
