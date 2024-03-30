@@ -47,7 +47,7 @@ module.exports = function(db_injected){
     async function login(table, user_name, password){        
         const answer_temp = await db_mysql.login(table, user_name);
         if(answer_temp.length === 0){
-            return 'user do not exist';
+            return 'user does not exist';
         }
         if(!await bcrypt.compare(password, answer_temp[0].encrypted_password)){
             return 'wrong password';
