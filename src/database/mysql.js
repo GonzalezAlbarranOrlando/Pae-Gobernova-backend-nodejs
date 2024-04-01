@@ -168,26 +168,25 @@ function q_f_per_user_per_evaluation(userid, evaluationid){
                 AND e.id = ?
             ORDER BY
                 s.id, q.id, question_number
-            )
-            SELECT 
-                evaluation_id,
-                evaluation_name,
-                section_id,
-                section_name,
-                user_id,
-                question_id,
-                question_number,
-                question_body,
-                question_status_text,
-                f.id AS file_id,
-                f.file_path,
-                qc.user_question_id
-            FROM 
-                QuestionCounts qc
-            LEFT JOIN 
-                files f ON qc.user_question_id = f.user_question_id
-            WHERE 
-                f.boolean_status = 1;
+        )
+        SELECT 
+            evaluation_id,
+            evaluation_name,
+            section_id,
+            section_name,
+            user_id,
+            question_id,
+            question_number,
+            question_body,
+            question_status_text,
+            COALESCE(f.id, -1) AS file_id,
+            COALESCE(f.file_path, 'no files') AS file_path,
+            qc.user_question_id
+        FROM 
+            QuestionCounts qc
+        LEFT JOIN 
+            files f ON qc.user_question_id = f.user_question_id
+            AND f.boolean_status = 1;
         `, [userid, evaluationid],(error, result) => {
             return error ? reject(error) : resolve(result);
         })
