@@ -4,6 +4,8 @@ const answer = require('../network/answers');
 const controller = require('./index');
 
 const router = express.Router();
+//npm install --save @sendgrid/mail
+const sgMail = require('@sendgrid/mail');
 
 //users test ok
 router.get('/users/select_all', select_all);
@@ -68,6 +70,23 @@ router.get('/login/:user_name/:password', login);
 router.get('/evaluations_per_user/user_id/:id', evaluations_per_user);
 // q_f_per_user_per_evaluation
 router.get('/q_f_per_user_per_evaluation/:userid/:evaluationid', q_f_per_user_per_evaluation);
+// sendGrid
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+router.post('/send_email', send_email);
+
+async function send_email(req, res){
+    const { templateId, dynamicTemplateData, to } = req.body;
+    const msg = {
+        to,
+        from: 'direccioncomercial@gobernova.com.mx',
+        templateId,
+        dynamicTemplateData,
+        };
+        sgMail.send(msg)
+        .then(() => res.send('Correo electrónico enviado con éxito'))
+        .catch(error => res.status(500).send('Error al enviar el correo electrónico: ' + error));
+}
 
 async function select_all(req, res){
     try{
